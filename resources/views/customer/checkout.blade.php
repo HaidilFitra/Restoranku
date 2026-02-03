@@ -53,29 +53,6 @@
                                                 <td class="py-5">Rp25.000,00</td>
                                                 <td class="py-5">1</td>
                                                 <td class="py-5">Rp25.000,00</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    <div class="d-flex align-items-center mt-2">
-                                                        <img src="https://images.unsplash.com/photo-1543392765-620e968d2162?q=80&w=1987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA==" class="img-fluid rounded-circle" style="width: 100px; height: 90px; object-fit: cover;" alt="">
-                                                    </div>
-                                                </th>
-                                                <td class="py-5">Beef Burger</td>
-                                                <td class="py-5">Rp40.000,00</td>
-                                                <td class="py-5">1</td>
-                                                <td class="py-5">Rp40.000,00</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    <div class="d-flex align-items-center mt-2">
-                                                        <img src="https://images.unsplash.com/photo-1579954115545-a95591f28bfc" class="img-fluid rounded-circle" style="width: 100px; height: 90px; object-fit: cover;" alt="">
-                                                    </div>
-                                                </th>
-                                                <td class="py-5">Big Banana</td>
-                                                <td class="py-5">Rp20.000,00</td>
-                                                <td class="py-5">1</td>
-                                                <td class="py-5">Rp20.000,00</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
