@@ -51,13 +51,13 @@
                         <td>
                             <div class="input-group quantity mt-4" style="width: 100px;">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                    <button class="btn btn-sm btn-minus rounded-circle bg-light border" onclick="updateQuantity('{{ $item['id'] }}', -1)">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
-                                <input type="text" class="form-control form-control-sm text-center border-0" value="{{ $item['qty'] }}">
+                                <input id="qty-{{ $item['id'] }}" type="text" class="form-control form-control-sm text-center border-0" value="{{ $item['qty'] }}">
                                 <div class="input-group-btn">
-                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                    <button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQuantity('{{ $item['id'] }}', 1)">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
@@ -67,7 +67,7 @@
                             <p class="mb-0 mt-4">Rp{{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}</p>
                         </td>
                         <td>
-                            <button class="btn btn-md rounded-circle bg-light border mt-4">
+                            <button class="btn btn-md rounded-circle bg-light border mt-4" onclick="if(confirm('Apakah Anda yakin ingin menghapus item ini dari keranjang?')) {removeItemFromCart('{{$item['id']}}')}">
                                 <i class="fa fa-times text-danger"></i>
                             </button>
                         </td>
@@ -81,6 +81,9 @@
         $tax = $subtotal * 0.1;
         $total = $subtotal + $tax;
         @endphp
+        <div class="d-flex justify-content-end">
+            <a href="{{route('cart.clear')}}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus semua item dari keranjang?')">Kosongkan Keranjang</a>
+        </div>
         <div class="row g-4 justify-content-end mt-1">
             <div class="col-8"></div>
             <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
@@ -114,4 +117,63 @@
         @endif
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    function updateQuantity(itemId, change) {
+        let qtyInput = document.getElementById('qty-' + itemId);
+        let currentQty = parseInt(qtyInput.value);
+        let newQty = currentQty + change;
+
+        if(newQty <= 0) {
+            if(confirm('Apakah Anda yakin ingin menghapus item ini dari keranjang?')) {
+                removeItemFromCart(itemId);
+            }
+            return;
+        }
+            fetch("{{ route('cart.update') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    id: itemId,
+                    qty: newQty
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    qtyInput.value = newQty;
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            });
+        }
+
+        function removeItemFromCart(itemId){
+        fetch("{{ route('cart.remove') }}", {
+             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({ id: itemId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                location.reload();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
 @endsection
