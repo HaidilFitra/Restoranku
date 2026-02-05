@@ -1,5 +1,13 @@
 @extends('customer.layouts.master')
 @section('content')
+   <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Keranjang</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item active text-primary">Silahkan Periksa Pesanan Anda</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
 <div class="container-fluid py-5">
     <div class="container py-5">
         @if (session('success'))
