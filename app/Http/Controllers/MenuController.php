@@ -138,7 +138,7 @@ class MenuController extends Controller
            $itemDetails[] = [
                'id' => $item['id'],
                'name' => substr($item['name'], 0, 50),
-               'price' => (int) $item['price'] + ($item['price'] * 0.1),
+               'price' => (int) ($item['price'] + ($item['price'] * 0.1)),
                'quantity' => $item['qty'],
            ];
        }
@@ -174,7 +174,41 @@ class MenuController extends Controller
        
        Session::forget('cart');
 
-       return redirect()->route('checkout.success', ['orderId' => $order->order_code])->with('success', 'Pesanan Anda telah diterima. Terima kasih!');
+       if($request->payment_method == 'tunai'){
+           return redirect()->route('checkout.success', ['orderId' => $order->order_code])->with('success', 'Pesanan Anda telah diterima. Terima kasih!');
+       } else {
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        \Midtrans\Config::$isProduction = config('midtrans.is_production');
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $order->order_code,
+                'gross_amount' => (int) $order->grand_total,
+            ],
+            'customer_details' => [
+                'first_name' => $user->fullname ?? 'Customer',
+                'phone' => $user->phone,
+            ],
+            'item_details' => $itemDetails,
+            'payment_type' => 'qris',
+        ];
+
+        try {
+            $snap = \Midtrans\Snap::getSnapToken($params);
+            return response()->json([
+                'status' => 'success',
+                'snap_token' => $snap,
+                'order_code' => $order->order_code,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal membuat pesanan. Silakan coba lagi.'
+            ]);
+        }
+       }
     }
 
     public function checkoutSuccess($orderId)
