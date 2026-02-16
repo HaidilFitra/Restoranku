@@ -27,7 +27,12 @@
                 </h5>
             </div>
             <div class="card-body">
-               
+                @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p><i class="bi bi-check-circle-fill"></i> {{ session('success') }}</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
@@ -43,41 +48,41 @@
                     </thead>
                     <tbody>
                         @foreach ($items as $item )
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>
-                                    <img src="{{ asset('img_item_upload/' . $item->img) }}" class="img-fluid rounded-top" width="50" alt="" onerror="this.onerror=null;this.src='{{$item->img}}';">
-                                </td>
-                                <td>{{$item->name}}</td>
-                                <td>{{Str::limit($item->description, 15)}}</td>
-                                <td>{{'Rp'.number_format($item->price, 0, ',', '.')}}</td>
-                                <td>
-                                    @if($item->category->cat_name === 'Makanan')
-                                        <span class="badge bg-warning">{{ $item->category->cat_name }}</span>
-                                    @elseif($item->category->cat_name === 'Hidangan Utama')
-                                        <span class="badge bg-warning">{{ $item->category->cat_name }}</span>
-                                    @else
-                                        <span class="badge bg-info">{{ $item->category->cat_name }}</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <span class="badge {{ $item->is_available == 1 ? 'bg-success' : 'bg-danger'}}">
-                                        {{ $item->is_available == 1 ? 'Tersedia' : 'Kosong'}}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="{{ route('items.edit', $item->id ) }}" class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil"></i> Update
-                                    </a>
-                                    <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus menu ini?')">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>{{$loop->iteration}}</td>
+                            <td>
+                                <img src="{{ asset('img_item_upload/' . $item->img) }}" class="img-fluid rounded-top" width="50" alt="" onerror="this.onerror=null;this.src='{{$item->img}}';">
+                            </td>
+                            <td>{{$item->name}}</td>
+                            <td>{{Str::limit($item->description, 15)}}</td>
+                            <td>{{'Rp'.number_format($item->price, 0, ',', '.')}}</td>
+                            <td>
+                                @if($item->category->cat_name === 'Makanan')
+                                <span class="badge bg-warning">{{ $item->category->cat_name }}</span>
+                                @elseif($item->category->cat_name === 'Hidangan Utama')
+                                <span class="badge bg-warning">{{ $item->category->cat_name }}</span>
+                                @else
+                                <span class="badge bg-info">{{ $item->category->cat_name }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                <span class="badge {{ $item->is_available == 1 ? 'bg-success' : 'bg-danger'}}">
+                                    {{ $item->is_available == 1 ? 'Tersedia' : 'Kosong'}}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ route('items.edit', $item->id ) }}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil"></i> Update
+                                </a>
+                                <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus menu ini?')">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
