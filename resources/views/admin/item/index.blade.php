@@ -27,6 +27,7 @@
                 </h5>
             </div>
             <div class="card-body">
+               
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
@@ -45,7 +46,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>
-                                    <img src="{{ $item->img }}" class="img-fluid rounded-top" width="50" alt="" onerror="this.onerror=null;this.src='https://via.placeholder.com/400x300?text=No+Image';">
+                                    <img src="{{ asset('img_item_upload/' . $item->img) }}" class="img-fluid rounded-top" width="50" alt="" onerror="this.onerror=null;this.src='{{$item->img}}';">
                                 </td>
                                 <td>{{$item->name}}</td>
                                 <td>{{Str::limit($item->description, 15)}}</td>

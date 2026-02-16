@@ -18,7 +18,7 @@
 
 <div class="card">
   <div class="card-body">
-    <form class="form" action="{{ route('items.store')}}" enctype="multipart/form-data">
+    <form class="form" action="{{ route('items.store')}}" enctype="multipart/form-data" method="POST">
       @csrf
       <div class="form-body">
         <div class="row"></div>
@@ -30,7 +30,7 @@
 
         <div class="form-group">
           <label for="description">Deskripsi</label>
-          <input type="text" class="form-control" id="description" name="description" placeholder="Masukkan deskripsi menu" required>
+          <textarea class="form-control" id="description" name="description" placeholder="Masukkan deskripsi menu" required rows="3"></textarea>
         </div>
 
         <div class="form-group">
