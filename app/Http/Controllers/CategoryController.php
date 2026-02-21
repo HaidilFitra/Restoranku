@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+
 class CategoryController extends Controller
 {
     /**
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -28,7 +29,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'cat_name' => 'required|string|max:255',
+            'description' => 'required|string',
+        ], [
+            'cat_name.required' => 'Category name is required.',
+            'cat_name.string' => 'Category name must be text.',
+            'cat_name.max' => 'Category name must not exceed 255 characters.',
+            'description.required' => 'Description is required.',
+            'description.string' => 'Description must be text.',
+        ]);
+
+        Category::create($validatedData);
+        return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
 
     /**
@@ -44,7 +57,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -52,7 +66,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'cat_name' => 'required|string|max:255',
+            'description' => 'required|string',
+        ], [
+            'cat_name.required' => 'Category name is required.',
+            'cat_name.string' => 'Category name must be text.',
+            'cat_name.max' => 'Category name must not exceed 255 characters.',
+            'description.required' => 'Description is required.',
+            'description.string' => 'Description must be text.',
+        ]);
+
+        $category = Category::findOrFail($id);
+        $category->update($validatedData);
+
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -60,6 +88,9 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
 }
