@@ -74,13 +74,29 @@
                                 <a href="{{ route('items.edit', $item->id ) }}" class="btn btn-warning btn-sm">
                                     <i class="bi bi-pencil"></i> Update
                                 </a>
-                                <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="d-inline">
+                                @if ($item->is_available == 1)
+                               <form action="{{route('items.updateStatus', $item->id)}}" method="POST" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="is_available" value="0">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menonaktifkan menu ini?')">
+                                        <i class="bi bi-x-circle"></i> Nonaktifkan
+                                    </button>
+                                </form>
+                                @else
+                                <form action="{{route('items.updateStatus', $item->id)}}" method="POST" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="is_available" value="1">
+                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Apakah Anda yakin ingin mengaktifkan menu ini?')">
+                                        <i class="bi bi-check-circle"></i> Aktifkan
+                                    </button>
+                                @endif
+                                <!-- <form action="{{ route('items.destroy', $item->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus menu ini?')">
                                         <i class="bi bi-trash"></i> Delete
                                     </button>
-                                </form>
+                                </form> -->
                             </td>
                         </tr>
                         @endforeach

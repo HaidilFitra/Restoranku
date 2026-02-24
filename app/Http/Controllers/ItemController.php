@@ -94,6 +94,14 @@ class ItemController extends Controller
         return redirect()->route('items.index')->with('success', 'Item updated successfully.');
     }
 
+    public function updateStatus($id)
+    {
+        $item = Item::findOrFail($id);
+        $item->is_available = !$item->is_available;
+        $item->save();
+        return redirect()->route('items.index')->with('success', 'Item status updated successfully.');
+    }
+
     public function destroy(string $id)
     {
         $item = Item::findOrFail($id);
