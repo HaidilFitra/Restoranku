@@ -1,11 +1,11 @@
 @extends('admin.layouts.master')
-@section('title', 'dashboard')
+@section('title', 'Dashboard')
 @section('css')
 
 @endsection
 @section('content')
 <div class="page-heading">
-                <h3>Selamat Datang, Admin!</h3>
+                <h3>Selamat Datang, {{Auth::user()->fullname}}!</h3>
             </div> 
             <div class="page-content"> 
                 <section class="row">
@@ -21,8 +21,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                <h6 class="text-muted font-semibold">Total Pesanan</h6>
-                                                <h6 class="font-extrabold mb-0">112</h6>
+                                                <h6 class="text-muted font-semibold">Pesanan Hari Ini</h6>
+                                                <h6 class="font-extrabold mb-0">{{ $todayOrders }}</h6>
                                             </div>
                                         </div> 
                                     </div>
@@ -38,8 +38,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                <h6 class="text-muted font-semibold">Pesanan Hari Ini</h6>
-                                                <h6 class="font-extrabold mb-0">183.000</h6>
+                                                <h6 class="text-muted font-semibold">Pendapatan Hari Ini</h6>
+                                                <h6 class="font-extrabold mb-0">{{'Rp'.number_format($todayRevenue, 0, ',', '.')}}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -55,8 +55,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                <h6 class="text-muted font-semibold">Jumlah Menu</h6>
-                                                <h6 class="font-extrabold mb-0">80.000</h6>
+                                                <h6 class="text-muted font-semibold">Total Pesanan</h6>
+                                                <h6 class="font-extrabold mb-0">{{ $totalOrders }}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -72,15 +72,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                <h6 class="text-muted font-semibold">Jumlah Karyawan</h6>
-                                                <h6 class="font-extrabold mb-0">112</h6>
+                                                <h6 class="text-muted font-semibold">Total Pendapatan</h6>
+                                                <h6 class="font-extrabold mb-0">{{ 'Rp'.number_format($totalRevenue, 0, ',', '.') }}</h6>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -91,7 +91,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </section>
             </div>
