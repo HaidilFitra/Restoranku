@@ -88,12 +88,13 @@
                         @endif
 
                         <li class="sidebar-item">
-                            <form action="{{ route('logout') }}" method="POST"  onclick="event.preventDefault();this.closest('form').submit();">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                            <a href="{{ route('logout') }}" class='sidebar-link'>
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>{{ __('Log Out') }}</span>
-                            </a>
+                                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class='sidebar-link'>
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>{{ __('Log Out') }}</span>
+                                </a>
+                            </form>
                         </li>
                     </ul>
                 </div>

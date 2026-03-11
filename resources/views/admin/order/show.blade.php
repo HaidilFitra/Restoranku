@@ -21,10 +21,30 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
                     {{ $order->order_code }}
                 </h5>
+                <div>
+                    @if (Auth::user()->role->role_name == 'Administrator' || Auth::user()->role->role_name == 'cashier')
+                        @if ($order->status == 'pending' && $order->payment_method == 'tunai')
+                            <form action="{{route('orders.updateStatus', $order->id)}}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="bi bi-check-lg"></i> Settle
+                                </button>
+                            </form>
+                        @endif
+                    @elseif (Auth::user()->role->role_name == 'chef' && $order->status == 'settlement')
+                            <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <input type="hidden" name="status" value="cooked">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="bi bi-check-circle"></i> Pesanan Siap
+                                </button>
+                            </form>
+                    @endif
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">
